@@ -1,7 +1,7 @@
 <template>
     <div>
-        <span ref="editBox"></span>
-        <span v-if="!edit">{{currentValue}}<button @click="toggleEdit(true)">编辑</button></span>
+        <span v-if="edit" ref="editBox"></span>
+        <span v-if="!edit">{{currentValue}}<button @click="toggleEdit">编辑</button></span>
     </div>
 </template>
 <script type="text/jsx">
@@ -24,11 +24,11 @@
             handleInputChange(event){
                 this.currentValue = event.target.value
             },
-            toggleEdit(status){
-                this.edit = status
+            toggleEdit(){
+                this.edit = !this.edit
             },
             submitEdit(event){
-                this.toggleEdit(false);
+                this.toggleEdit();
                 this.currentValue = this.getValue(event.target.value);
                 this.$emit('edit',{
                     value:this.currentValue,
@@ -73,13 +73,12 @@
                                 }
                             }
                         });
-                        console.log(this.$refs.editBox);
                         this.editVm.$mount(this.$refs.editBox)
                     })
                 }else {
                     if(this.editVm){
                         this.editVm.$destroy();
-//                        this.editVm = null
+                        this.editVm = null
                     }
                 }
             }
