@@ -2,7 +2,7 @@ export default {
     name: 'TableExpand',
     functional: true,
     props: {
-        row: Object,
+        value: null,
         render: Function,
         index: Number,
         column: {
@@ -12,10 +12,9 @@ export default {
     },
     render: (h, ctx) => {
         const params = {
-            row: ctx.props.row,
+            value: ctx.props.value,
             index: ctx.props.index
         };
-        if (ctx.props.column) params.column = ctx.props.column;
         return ctx.props.render(h, params);
     }
 };
