@@ -1,7 +1,7 @@
 <template>
     <div>
-        <span ref="editBox"></span>
-        <span v-if="!edit">{{currentValue}}<button @click="toggleEdit(true)">编辑</button></span>
+        <span v-if="edit" ref="editBox" class="edit-box"></span>
+        <span v-if="!edit" class="content-box">{{currentValue}}<button @click="toggleEdit(true)">编辑</button></span>
     </div>
 </template>
 <script type="text/jsx">
@@ -28,13 +28,13 @@
                 this.edit = status
             },
             submitEdit(event){
-                this.toggleEdit(false);
                 this.currentValue = this.getValue(event.target.value);
                 this.$emit('edit',{
                     value:this.currentValue,
                     key:this.name,
                     index:this.index
-                })
+                });
+                this.toggleEdit(false);
             },
             getValue(val){
                 if(this.type === 'select'){
@@ -50,15 +50,15 @@
                     this.$nextTick(()=>{
                         this.editVm = new Vue({
                             render (h) {
-                                let input;
+                                let editVNode;
                                 if(self.type==='input'){
-                                    input = (<input ref="input" value={self.currentValue}  onKeyup={self.handleKeyUp}/>)
+                                    editVNode = (<input ref="input" value={self.currentValue} onChange={self.handleInputChange}  onKeyup={self.handleKeyUp}/>)
                                 }else if(self.type==='select'){
-                                    input = (<select value={self.currentValue} onChange={self.submitEdit}>
+                                    editVNode = (<select value={self.currentValue} onChange={self.submitEdit}>
                                         {Object.keys(self.map).map(key=>(<option value={key}>{self.map[key]}</option>))}
                                     </select>)
                                 }
-                                return input
+                                return editVNode
                             },
                             destroyed(){
                                 this.$el.parentNode.removeChild(this.$el)
@@ -74,14 +74,21 @@
                             }
                         });
                         console.log(this.$refs.editBox);
-                        this.editVm.$mount(this.$refs.editBox)
+                        this.editVm.$mount();
+                        this.$refs.editBox.appendChild(this.editVm.$el)
                     })
                 }else {
                     if(this.editVm){
                         this.editVm.$destroy();
-//                        this.editVm = null
+                        delete this.vm
                     }
                 }
+            }
+        },
+        destroyed(){
+            if(this.editVm){
+                this.editVm.$destroy();
+                delete this.vm
             }
         }
     }
