@@ -19,10 +19,10 @@
         created(){
             api().then(res=>{
                 res.columns = res.columns.map(col=>{
-                    col.render = (h,{row,index})=>{
+                    col.render = (h,{value,index})=>{
                         return h(TableInput,{
                             props:{
-                                value:row[col.key],
+                                value:value,
                                 name:col.key,
                                 index,
                                 type:col.type,

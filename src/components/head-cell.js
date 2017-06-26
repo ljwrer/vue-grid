@@ -4,8 +4,8 @@
 export default {
     name: 'table-head-cell',
     functional:true,
-    props:['render','column'],
+    props:['render'],
     render(h,ctx){
-        return ctx.props.render(h,ctx.props.column)
+        return ctx.props.render(h)
     }
 }
