@@ -1,5 +1,5 @@
 export default {
-    name: 'TableExpand',
+    name: 'table-body-cell',
     functional: true,
     props: {
         row: Object,
