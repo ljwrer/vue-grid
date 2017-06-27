@@ -75,5 +75,5 @@
 </script>
 
 <style>
-
+@import "assets/foundation.min.css";
 </style>

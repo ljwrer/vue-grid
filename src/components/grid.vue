@@ -44,12 +44,4 @@
 table{
     table-layout: fixed;
 }
-span{
-    height: 100px;
-    width: 200px;
-}
-th,td{
-    min-width: 200px;
-    text-align: center;
-}
 </style>

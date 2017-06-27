@@ -1,11 +1,11 @@
 <template>
     <span v-if="edit" ref="editBox">
-        <input v-if="type === 'input'" v-model="currentValue" @keyup.enter="submitEdit"/>
+        <input type="text" v-if="type === 'input'" v-model="currentValue" @keyup.enter="submitEdit"/>
         <select v-if="type === 'select'" :value="currentValue" @change="submitEdit">
             <option v-for="(value, key) in map" :value="key">{{value}}</option>
         </select>
     </span>
-    <span v-else>{{currentValue}}<button @click="toggleEdit">编辑</button></span>
+    <span v-else>{{currentValue}}<button type="button" class="button tiny" @click="toggleEdit">编辑</button></span>
 </template>
 <script>
     import Vue from 'vue'
